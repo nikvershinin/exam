@@ -1,6 +1,7 @@
-from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
@@ -34,7 +35,7 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     title = models.CharField(max_length=128, verbose_name='Заголовок')
-    text = RichTextUploadingField(blank=True, null=True)
+    text = RichTextUploadingField()
     postCategory = models.ManyToManyField(Category, verbose_name='Категория')
 
     class Meta:
