@@ -42,8 +42,8 @@ class Post(models.Model):
         verbose_name = 'Объясвление'
         verbose_name_plural = 'Объявления'
 
-    def __str__(self):
-        return f'{self.title()}: {self.text[:20]}...'
+    # def __str__(self):
+    #     return self.title()
 
     def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
         return f'/post/{self.pk}'

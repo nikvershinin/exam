@@ -1,0 +1,56 @@
+{% extends 'default.html' %}
+
+{% block title %}Post_All{% endblock title %}
+
+{% block content %}
+    <h2>Количество новостей:
+        {{ post_all|length }}
+    </h2>
+    <hr>
+    <!-- форма для поиска -->
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django.  -->
+    <input type="submit" value="Найти">
+</form>
+    {% if post_all %} <!-- Если есть новости, то выводим таблицу с ними -->
+        <table>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Дата и время публикации
+                </td>
+                <td>
+                    Категория
+                </td>
+                <td>
+                    Отклики
+                </td>
+            </tr>
+        {% for post in post_all %}
+            <tr>
+                <td>
+                    <a href="#">{{ post.title|truncatewords:30 }}</a>
+                </td>
+                <td>
+                    {{ post.dateCreation|date:'d M Y' }}
+                    {{ post.dateCreation|time }}
+                </td>
+                <td>
+                    {% for cat in post.postCategory.all %}
+                    {{ cat.get_categoryType_display }}
+                    {% endfor %}
+                </td>
+                <td>
+                    Пока нет
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+
+{% endblock content %}
+
