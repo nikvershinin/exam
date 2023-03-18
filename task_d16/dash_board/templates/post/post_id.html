@@ -1,25 +1,19 @@
 {% extends 'default.html' %}
-
-{% block title %}Post_All{% endblock title %}
-
+{% block title %}Post_Detail{% endblock title %}
 {% block content %}
-    <h2>Количество новостей:
-        {{ post_all|length }}
-    </h2>
+    <h2>Название: {{ post.title }} </h2>
     <hr>
-    <!-- форма для поиска -->
-<form method="GET">
-    {{ filter.form }} <!-- Форму от фильтров за нас сделает django.  -->
-    <input type="submit" value="Найти">
-</form>
-    {% if post_all %} <!-- Если есть новости, то выводим таблицу с ними -->
+    {% if post %} <!-- Если есть новости, то выводим таблицу с ними -->
         <table>
             <tr>
                 <td>
-                    Заголовок
+                    Текст
                 </td>
                 <td>
-                    Дата и время публикации
+                    Дата создания
+                </td>
+                <td>
+                    Автор
                 </td>
                 <td>
                     Категория
@@ -28,29 +22,32 @@
                     Отклики
                 </td>
             </tr>
-        {% for post in post_all %}
             <tr>
                 <td>
-                    <a href="{% url 'post_id' post.id %}">{{ post.title|truncatewords:30 }}</a>
+                    {{ post.text }}
                 </td>
                 <td>
                     {{ post.dateCreation|date:'d M Y' }}
                     {{ post.dateCreation|time }}
                 </td>
                 <td>
+                    {{ post.author }}
+                </td>
+                <td>
+                    {{ post.rating }}
+                </td>
+                <td>
                     {% for cat in post.postCategory.all %}
-                    {{ cat.get_categoryType_display }}
+                    {{ cat.name }}
                     {% endfor %}
                 </td>
                 <td>
-                    Пока нет
+                    {{ post.get_categoryType_display }}
                 </td>
             </tr>
-        {% endfor %}
+
         </table>
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
-
 {% endblock content %}
-

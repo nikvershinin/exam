@@ -1,7 +1,10 @@
+from django.views.generic import ListView, CreateView, DetailView
+from django.urls import reverse
+from django.contrib.messages.views import SuccessMessageMixin
+
 from .models import *
 from .filters import *
-from django.views.generic import ListView
-
+from .forms import *
 
 class PostList(ListView):
     model = Post
@@ -21,3 +24,18 @@ class PostList(ListView):
             **super().get_context_data(*args, **kwargs),
             "filter": self.get_filter(),
         }
+
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'post/post_id.html'
+    context_object_name = 'post'
+    queryset = Post.objects.all()
+
+class AddPost(SuccessMessageMixin, CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = "post/add_post.html"
+    success_message = "Added Succesfully"
+
+    def get_success_url(self):
+        return reverse('')
