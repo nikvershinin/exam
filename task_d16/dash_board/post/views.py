@@ -47,6 +47,8 @@ class AddPostView(LoginRequiredMixin, CreateView, PermissionRequiredMixin):
         form.instance.author = self.request.user.author
         return super().form_valid(form)
 
+    success_url = ''
+
 class DeletePostView(DetailView, PermissionRequiredMixin):
     permission_required = ('post.post_delete',)
     template_name = 'post/post_delete.html'
