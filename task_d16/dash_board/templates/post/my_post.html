@@ -12,7 +12,7 @@
     {{ filter.form }} <!-- Форму от фильтров за нас сделает django.  -->
     <input type="submit" value="Найти">
 </form>
-    {% if post_all %} <!-- Если есть новости, то выводим таблицу с ними -->
+    {% if my_post %} <!-- Если есть новости, то выводим таблицу с ними -->
         <table>
             <tr>
                 <td>
@@ -28,7 +28,7 @@
                     Отклики
                 </td>
             </tr>
-        {% for post in post_all %}
+        {% for post in my_post %}
             <tr>
                 <td>
                     <a href="{% url 'post_id' post.id %}">{{ post.title|truncatewords:30 }}</a>
@@ -47,9 +47,7 @@
                     {% endfor %}
                 </td>
                 <td>
-
-                    {{ post.comments.all|length }}
-
+                    Пока нет
                 </td>
             </tr>
         {% endfor %}

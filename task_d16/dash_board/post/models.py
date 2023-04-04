@@ -52,14 +52,14 @@ class Post(models.Model):
         return self.text[0:123] + '...'
 
 class Comment(models.Model):
-    commentPost = models.ForeignKey(Post, on_delete=models.CASCADE)
+    commentPost = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     commentUser = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     dateCreation = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.pk} {self.commentUser.username} {self.commentPost.title[:200]}'
+        return f'{self.pk} {self.text[:20]}'
 
     class Meta:
         verbose_name = 'Комментарий'

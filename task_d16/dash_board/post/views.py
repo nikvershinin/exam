@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import *
@@ -26,6 +26,7 @@ class PostList(ListView):
             **super().get_context_data(*args, **kwargs),
             "filter": self.get_filter(),
         }
+
 
 class PostDetail(DetailView):
     model = Post
@@ -64,3 +65,33 @@ class UpdatePostView(UpdateView, PermissionRequiredMixin):
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
+
+class MyPostView(ListView):
+    model = Post
+    template_name = 'post/my_post.html'
+    context_object_name = 'my_post'
+    ordering = ['-dateCreation']
+    paginate_by = 10
+
+    def get_queryset(self):
+        author = Author.objects.get(name=self.request.user)
+        queryset = Post.objects.filter(post__author=author)
+        return queryset
+
+class CommentDetail(DetailView):
+    model = Comment
+    template_name = 'post/comment_id.html'
+    context_object_name = 'comment_id'
+    queryset = Comment.objects.all()
+
+class CommentDeleteView(DetailView, LoginRequiredMixin):
+    model = Comment
+    template_name = 'post/comment_delete.html'
+    queryset = Comment.objects.all()
+    success_url = ''
+
+def comment_approve(request, pk):
+    obj = Comment.objects.get(id=pk)
+    obj.status = True
+    obj.save()
+    return redirect('/my_comments')

@@ -10,3 +10,10 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = '__all__'
         exclude = ['author']
+
+class ReplyForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}), label='Содержимое')

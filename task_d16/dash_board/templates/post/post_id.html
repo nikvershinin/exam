@@ -35,11 +35,13 @@
                     {{ post.author }}
                 </td>
                 <td>
-                    {{ post.rating }}
+                    {% for cat in post.postCategory.all %}
+                    {{ cat.get_categoryType_display }}
+                    {% endfor %}
                 </td>
                 <td>
-                    {% for cat in post.postCategory.all %}
-                    {{ cat.name }}
+                    {% for comment in post.comments.all %}
+                    <a href="{% url 'comment_id' comment.id %}">{{ comment.text}}</a>
                     {% endfor %}
                 </td>
                 <td>
