@@ -2,12 +2,12 @@
 {% block title %}Отклик подробно{% endblock title %}
 {% block content %}
     <div class="container text-center mt-5">
-        <h1 class="p-sm-3">Отклик № {{comment.pk}}</h1>
-        <p class="p-sm-1">к объявлению "{{comment.post}}"</p>
+        <h1 class="p-sm-3">Отклик № {{comment_id.pk}}</h1>
+        <p class="p-sm-1">к объявлению "{{comment_id.post}}"</p>
         <hr>
-        <a class="navbar-toggler" href="{% url 'comment_delete' comment.pk %}">Удалить отклик</a>
+        <a class="navbar-toggler" href="{% url 'comment_delete' comment_id.pk %}">Удалить отклик</a>
         {% if not reply.approved%}
-            <a class="navbar-toggler" href="{% url 'comment_approve' comment.pk %}">Принять отклик</a>
+            <a class="navbar-toggler" href="{% url 'comment_approve' comment_id.pk %}">Принять отклик</a>
         {% endif %}
         <hr>
         <h4 class="p-sm-3">Автор {{comment.author}}</h4>
