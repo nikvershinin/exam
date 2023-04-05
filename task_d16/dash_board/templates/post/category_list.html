@@ -1,18 +1,19 @@
 {% extends 'default.html' %}
 
-{% block title %}Post_All{% endblock title %}
+{% block title %}
+Category List
+{% endblock title %}
 
 {% block content %}
-    <h2>Количество новостей:
-        {{ post_all|length }}
-    </h2>
+    <h1>Количество новостей: {{ category_list|length }} </h1>
     <hr>
     <!-- форма для поиска -->
-<form method="GET">
-    {{ filter.form }} <!-- Форму от фильтров за нас сделает django.  -->
-    <input type="submit" value="Найти">
+{% if is_not_subscriber %}
+    <a href="{% url 'subscribe' category.id %}">Подписаться на новости</a> <br>
+{% endif %}
+
 </form>
-    {% if post_all %} <!-- Если есть новости, то выводим таблицу с ними -->
+    {% if category_list %} <!-- Если есть новости, то выводим таблицу с ними -->
         <table>
             <tr>
                 <td>
@@ -28,7 +29,7 @@
                     Отклики
                 </td>
             </tr>
-        {% for post in post_all %}
+        {% for post in category_list %}
             <tr>
                 <td>
                     <a href="{% url 'post_id' post.id %}">{{ post.title|truncatewords:30 }}</a>
@@ -45,11 +46,10 @@
                     {% for cat in post.postCategory.all %}
                     <a href="{% url 'category_list' cat.id %}">{{ cat.categoryType }}</a>
                     {% endfor %}
+
                 </td>
                 <td>
-
-                    {{ post.comments.all|length }}
-
+                   {{ post.comments.all|length }}
                 </td>
             </tr>
         {% endfor %}
@@ -57,8 +57,7 @@
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
-
-        <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
+           <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
     {% if page_obj.has_previous %}
         <a href="?page=1">First</a>
         <a href="?page={{ page_obj.previous_page_number }}"><<<</a>

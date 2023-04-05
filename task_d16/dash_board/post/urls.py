@@ -13,12 +13,6 @@ urlpatterns = [
     path('comment/<int:pk>', CommentDetail.as_view(), name='comment_id'),
     path('comment/<int:pk>/delete', CommentDeleteView.as_view(), name='comment_delete'),
     path('comment/<int:pk>/approve', comment_approve, name='comment_approve'),
-    # path('create_author/', AuthorCreateView.as_view(), name='create_author'),
-    # path('category/<int:pk>', CatListView.as_view(), name='category_list'),
-    # path('category/<int:pk>/subscribe', subscribe, name='subscribe'),
-    # # path('index/', index)
-
+    path('category/<int:pk>', CatListView.as_view(), name='category_list'),
+    path('category/<int:pk>/subscribe', subscribe, name='subscribe'),
 ]
-#
-# path('create/', PostCreateView.as_view(), name='post_create'),
-#     path('create/<int:pk>', PostUpdateView.as_view(), name='post_create')

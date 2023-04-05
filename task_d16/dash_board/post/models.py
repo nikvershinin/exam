@@ -31,6 +31,10 @@ class Category(models.Model):
     categoryType = models.CharField(max_length=32, choices=CATEGORY_CHOISES, default='tanks', verbose_name='Категория')
     subscribers = models.ManyToManyField(User, related_name='categories')
 
+    def __str__(self):
+        return f'{self.categoryType}'
+
+
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
